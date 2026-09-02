@@ -1,0 +1,3 @@
+import type{AuditRecord,JobRepository,MutationResult,TokenRepository}from'./domain.js';
+export class MemoryJobs implements JobRepository{private jobs=new Map<string,MutationResult>();private events:AuditRecord[]=[];async get(id:string){return this.jobs.get(id)??null}async put(id:string,r:MutationResult){this.jobs.set(id,r)}async appendAudit(r:AuditRecord){this.events.unshift(r)}async audit(){return structuredClone(this.events)}async clear(){this.jobs.clear();this.events=[]}}
+export class MemoryEncryptedTokens implements TokenRepository{private values=new Map<string,string>();async put(id:string,v:string){this.values.set(id,v)}async get(id:string){return this.values.get(id)??null}async delete(id:string){this.values.delete(id)}}

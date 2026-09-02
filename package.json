@@ -1,0 +1,45 @@
+{
+  "name": "inbox-keeper-prototype",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "preview": "vite preview --host 127.0.0.1",
+    "build": "tsc -b && tsc -p server/tsconfig.json && vite build",
+    "server": "tsx server/index.ts",
+    "server:production": "node dist-server/production-server.js",
+    "local:db:setup": "bash scripts/local/bootstrap-postgres.sh",
+    "local:oauth:configure": "bash scripts/local/configure-google-oauth.sh",
+    "local:verify": "npm run build && node scripts/local/verify-local.mjs",
+    "local:live": "npm run build && node scripts/local/run-live.mjs",
+    "local:smoke": "npm run build && node scripts/local/smoke-local-live.mjs",
+    "check": "npm test && npm run build && npm audit --audit-level=moderate",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@google-cloud/kms": "5.4.0",
+    "@google-cloud/secret-manager": "6.1.1",
+    "@vitejs/plugin-react": "6.1.1",
+    "google-auth-library": "10.5.0",
+    "lucide-react": "1.38.0",
+    "pg": "8.16.3",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "typescript": "7.0.2",
+    "vite": "8.2.2"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "7.0.1",
+    "@testing-library/react": "16.3.3",
+    "@testing-library/user-event": "14.6.6",
+    "@types/node": "26.4.0",
+    "@types/pg": "8.15.5",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.5",
+    "jsdom": "30.0.1",
+    "tsx": "4.23.13",
+    "vitest": "4.1.11"
+  }
+}

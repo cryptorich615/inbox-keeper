@@ -1,0 +1,4 @@
+import{PublicError}from'./http-security.js';
+export class SlidingLimit{private hits=new Map<string,number[]>();constructor(private limit:number,private windowMs:number){}check(key:string){const now=Date.now(),live=(this.hits.get(key)||[]).filter(x=>x>now-this.windowMs);if(live.length>=this.limit)throw new PublicError(429,'Rate limit exceeded');live.push(now);this.hits.set(key,live)}}
+export class BoundedQueue{private active=0;private pending:Array<()=>void>=[];constructor(private concurrency=2,private maxPending=50){}async run<T>(work:()=>Promise<T>){if(this.pending.length>=this.maxPending)throw new PublicError(503,'Cleanup queue is full');if(this.active>=this.concurrency)await new Promise<void>(resolve=>this.pending.push(resolve));this.active++;try{return await work()}finally{this.active--;this.pending.shift()?.()}}}
+export function retryDelay(attempt:number,base=250,cap=8000,jitter=Math.random){return Math.min(cap,base*2**attempt)*(0.75+jitter()*0.5)}

@@ -1,0 +1,11 @@
+.git
+.github
+node_modules
+dist
+dist-server
+.env*
+coverage
+npm-debug.log*
+docs
+infra/.terraform
+infra/*.tfstate*

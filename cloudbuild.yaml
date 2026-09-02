@@ -1,0 +1,8 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args: ['build','--pull','--tag','${_IMAGE}:$COMMIT_SHA','.']
+  - name: gcr.io/cloud-builders/docker
+    args: ['push','${_IMAGE}:$COMMIT_SHA']
+images: ['${_IMAGE}:$COMMIT_SHA']
+options:
+  logging: CLOUD_LOGGING_ONLY
